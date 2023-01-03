@@ -21,6 +21,9 @@ public:
 
     int solve();
 
+    void show();
+    std::string show(Direction d);
+    
     std::string subsequence();
 
 private:

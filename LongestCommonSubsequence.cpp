@@ -7,6 +7,7 @@
 /*
 
 president providence
+providence president
  
  */
 
@@ -26,31 +27,24 @@ LongestCommonSubsequence::~LongestCommonSubsequence() {
 int LongestCommonSubsequence::solve() {
     for (size_t i = 1; i <= first.size(); ++i)
         for (size_t j = 1; j <= second.size(); ++j) {
-            if (first[i - 1] == second[j - 1])
+            if (first[i - 1] == second[j - 1]) {
+                dp[i][j].value = dp[i - 1][j - 1].value + 1;
                 dp[i][j].direction = DIAGONAL;
-            else if (dp[i - 1][j].value >= dp[i][j - 1].value)
+            } else if (dp[i - 1][j].value >= dp[i][j - 1].value) {
+                dp[i][j].value = dp[i - 1][j].value;
                 dp[i][j].direction = UP;
-            else if (dp[i - 1][j].value < dp[i][j - 1].value)
+            } else if (dp[i - 1][j].value < dp[i][j - 1].value) {
+                dp[i][j].value = dp[i][j - 1].value;
                 dp[i][j].direction = LEFT;
-            dp[i][j].value += f(i, j);
+            }
         }
     solved = true;
+//    show();
     return dp[first.size()][second.size()].value;
-}
-
-int LongestCommonSubsequence::f(size_t i, size_t j) {
-    return std::max(dp[i - 1][j].value, dp[i][j - 1].value) + (int) (first[i - 1] == second[j - 1]);
 }
 
 std::string LongestCommonSubsequence::subsequence() {
     if (!solved) return "";
-    
-//    std::cout << '\n';
-//    for (size_t i = 0; i <= first.size(); ++i) {
-//        for (size_t j = 0; j <= second.size(); ++j)
-//            std::cout << "(" << dp[i][j].value << ',' << dp[i][j].direction << ") ";
-//        std::cout << '\n';
-//    }
 
     std::string result;
     size_t i = first.size(), j = second.size();
@@ -65,7 +59,7 @@ std::string LongestCommonSubsequence::subsequence() {
             case DIAGONAL:
                 i--;
                 j--;
-                result += second[j];
+                result += first[i];
                 break;
             default:
                 throw "wtf?";
@@ -73,4 +67,26 @@ std::string LongestCommonSubsequence::subsequence() {
     }
     std::reverse(result.begin(), result.end());
     return result;
+}
+
+void LongestCommonSubsequence::show() {
+    std::cout << '\n';
+    for (size_t i = 0; i <= first.size(); ++i) {
+        for (size_t j = 0; j <= second.size(); ++j)
+            std::cout << "(" << dp[i][j].value << ',' << show(dp[i][j].direction) << ") ";
+        std::cout << '\n';
+    }
+}
+
+std::string LongestCommonSubsequence::show(Direction d) {
+    switch (d) {
+        case Direction::DIAGONAL:
+            return "d";
+        case Direction::UP:
+            return "u";
+        case Direction::LEFT:
+            return "l";
+        default:
+            return "X";
+    }
 }

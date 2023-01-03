@@ -16,7 +16,7 @@ void longest_common_subsequence();
 void knapsack_01();
 
 int main() {
-    knapsack_01();
+    robot_collect_coins();
     return 0;
 }
 
