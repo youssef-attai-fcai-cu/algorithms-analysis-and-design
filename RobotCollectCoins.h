@@ -22,9 +22,10 @@ public:
     ~RobotCollectCoins();
 
 private:
+    int f(int i, int j);
+
+private:
     bool **board;
     int **dp;
     int n, m;
-
-    int f(int i, int j);
 };
