@@ -3,6 +3,7 @@
 #include "CoinRow.h"
 #include "RobotCollectCoins.h"
 #include "LongestCommonSubsequence.h"
+#include "Knapsack01.h"
 
 void fibonacci();
 
@@ -12,9 +13,36 @@ void robot_collect_coins();
 
 void longest_common_subsequence();
 
+void knapsack_01();
+
 int main() {
-    longest_common_subsequence();
+    knapsack_01();
     return 0;
+}
+
+void knapsack_01() {
+    int n, capacity;
+    std::cout << "capacity = ";
+    std::cin >> capacity;
+    std::cout << "n = ";
+    std::cin >> n;
+    int *weights = new int[n];
+    std::cout << "Weights: ";
+    for (int i = 0; i < n; ++i)
+        std::cin >> weights[i];
+    std::cout << "Values: ";
+    int *values = new int[n];
+    for (int i = 0; i < n; ++i)
+        std::cin >> values[i];
+    Knapsack01 ks(capacity, n, weights, values);
+    std::cout << "Max value = " << ks.solve() << '\n';
+    bool *items = ks.items();
+    std::cout << "Items: ";
+    for (int i = 0; i < n; ++i)
+        if (items[i])
+            std::cout << i + 1 << ' ';
+    std::cout << '\n';
+    delete[] items;
 }
 
 void longest_common_subsequence() {
