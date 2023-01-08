@@ -1,9 +1,11 @@
 #include <iostream>
+#include <vector>
 #include "LongestCommonSubsequence.h"
 #include "Knapsack01.h"
 #include "RobotCollectCoins.h"
 #include "CoinRow.h"
 #include "Fibonacci.h"
+#include "graph/MinimumSpanningTree_Kruskal.h"
 
 void fibonacci();
 
@@ -15,9 +17,31 @@ void longest_common_subsequence();
 
 void knapsack_01();
 
+void minimum_spanning_tree_kruskal();
+
+void get_min_max();
+
 int main() {
-    robot_collect_coins();
+    get_min_max();
     return 0;
+}
+
+
+void minimum_spanning_tree_kruskal() {
+    int n, e;
+    std::cout << "Number of vertices: ";
+    std::cin >> n;
+    std::cout << "Number of edges: ";
+    std::cin >> e;
+    std::vector<std::pair<int, std::pair<int, int>>> graph;
+    std::cout << "Edges:\n";
+    int u, v, w;
+    for (int i = 0; i < e; ++i) {
+        std::cin >> u >> v >> w;
+        graph.emplace_back(w, std::make_pair(u, v));
+    }
+    MinimumSpanningTree_Kruskal mst_kruskal(graph, n);
+    std::cout << "Minimum = " << mst_kruskal.solve() << '\n';
 }
 
 void knapsack_01() {
@@ -99,4 +123,28 @@ void fibonacci() {
     std::cin >> n;
     Fibonacci fib(n);
     std::cout << "fib(" << n << ") = " << fib.solve() << '\n';
+}
+
+void get_min_max() {
+    int n;
+    std::cout << "n = ";
+    std::cin >> n;
+    int big_size = n / 2, small_size = n / 2 + (int) (n % 2 != 0);
+    int big[big_size], small[small_size];
+    std::cout << "Elements: ";
+    for (int i = 0; i < big_size; ++i) std::cin >> big[i];
+    for (int i = 0; i < small_size; ++i) std::cin >> small[i];
+    for (int i = 0; i < small_size; ++i) {
+        i = i % big_size;
+        if (small[i] > big[i]) {
+            int temp = big[i];
+            big[i] = small[i];
+            small[i] = temp;
+        }
+    }
+    int M = INT32_MIN, m = INT32_MAX;
+    for (int i = 0; i < n / 2; ++i) M = std::max(big[i], M);
+    for (int i = 0; i < n / 2; ++i) m = std::min(small[i], m);
+    std::cout << "Max = " << M << '\n';
+    std::cout << "Min = " << m << '\n';
 }
