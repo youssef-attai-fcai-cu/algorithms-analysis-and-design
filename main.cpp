@@ -6,6 +6,7 @@
 #include "CoinRow.h"
 #include "Fibonacci.h"
 #include "graph/MinimumSpanningTree_Kruskal.h"
+#include "CoinChange.h"
 
 void fibonacci();
 
@@ -21,9 +22,26 @@ void minimum_spanning_tree_kruskal();
 
 void get_min_max();
 
+void coin_change();
+
 int main() {
-    get_min_max();
+    coin_change();
     return 0;
+}
+
+void coin_change() {
+    int n, m;
+    std::cout << "n = ";
+    std::cin >> n;
+    std::cout << "m = ";
+    std::cin >> m;
+    std::cout << "Values: ";
+    int *values = new int[m];
+    for (int i = 0; i < m; ++i)
+        std::cin >> values[i];
+    CoinChange ch(n, m, values);
+    int sol = ch.solve();
+    std::cout << "Minimum = " << sol << '\n';
 }
 
 

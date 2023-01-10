@@ -16,4 +16,4 @@ add_executable(algorithms_analysis_and_design
         dynamic_programming/LongestCommonSubsequence.h
         dynamic_programming/RobotCollectCoins.cpp
         dynamic_programming/RobotCollectCoins.h
-        main.cpp)
+        main.cpp graph/MinimumSpanningTree_Kruskal.cpp graph/MinimumSpanningTree_Kruskal.h dynamic_programming/CoinChange.cpp dynamic_programming/CoinChange.h)
